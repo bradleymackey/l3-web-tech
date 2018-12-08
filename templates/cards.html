@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block cards %}
+
+<div class="container">
+
+    {# break items into batches of 3, for a maximum of 3 per row #}
+    {% for quote_row in quotes | batch(3, '&nbsp;') %}
+    {# mark a new row for each batch #}
+    <div class="row">
+  
+      {% for quote in quote_row %}
+  
+        {% set background = card_backgrounds|random %}
+      
+        <div class="movie col">
+          <div class="card">
+            <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg" alt="Card image cap">
+            <div class="card-body {{background}}">
+              <div class="badge badge-dark">
+                RECOMMENDED
+              </div>
+              <div class="badge badge-light">
+                YOU RATED
+              </div>
+              <div class="stars">
+                  <span class="stars-text">2.3 stars |</span>
+                  <span class="fa fa-star checked star1"></span>
+                  <span class="fa fa-star checked star2"></span>
+                  <span class="fa fa-star checked star3"></span>
+                  <span class="fa fa-star checked star4"></span>
+                  <span class="fa fa-star checked star5"></span>
+              </div>
+              <h3 class="card-title">{{name}}</h3>
+              <p class="card-text">{{quote}}</p>
+            </div>
+          </div>
+        </div>
+  
+      {% endfor %}
+  
+    </div>
+  
+  {% endfor %}
+
+</div>
+
+{% endblock %}

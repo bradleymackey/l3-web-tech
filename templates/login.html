@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block login %}
+
+<div class="login">
+    <h1 class="login-item">Login</h1>
+    <form>
+        <div class="form-group login-item">
+            <input type="text" class="form-control" id="username-field" aria-describedby="usernameHelp" placeholder="username">
+            <small id="usernameHelp" class="form-text text-muted">Enter a username so we can create a new profile or load your previous preferences.</small>
+        </div>
+        <button type="submit" class="btn btn-success login-item">Login</button>
+    </form>
+</div>
+
+{% endblock %}

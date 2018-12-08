@@ -13,11 +13,18 @@ app = Flask(__name__, static_url_path='/static')
 @app.route("/")
 def index():
     return "Flask App!"
+
+@app.route("/login/")
+def login():
+    title = "Movie Recommendations - Login"
+    return render_template(
+        'login.html',**locals())
  
 #@app.route("/hello/<string:name>")
 @app.route("/hello/<string:name>/")
 def hello(name):
 #    return name
+    title = "Movie Recommendations"
     quotes = [ "'If people do not believe that mathematics is simple, it is only because they do not realize how complicated life is.' -- John Louis von Neumann ",
                "'Computer science is no more about computers than astronomy is about telescopes' --  Edsger Dijkstra ",
                "'To understand recursion you must first understand recursion..' -- Unknown",
@@ -29,7 +36,7 @@ def hello(name):
     #quote = quotes[randomNumber] 
  
     return render_template(
-        'template.html',**locals())
+        'cards.html',**locals())
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
