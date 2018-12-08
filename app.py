@@ -24,11 +24,12 @@ def hello(name):
                "'You look at things that are and ask, why? I dream of things that never were and ask, why not?' -- Unknown",
                "'Mathematics is the key and door to the sciences.' -- Galileo Galilei",
                "'Not everyone will understand your journey. Thats fine. Its not their journey to make sense of. Its yours.' -- Unknown"  ]
+    card_backgrounds = ["card-bg-"+col for col in ["purple","blue","pink","green","red","orange","yellow","gray","darkGray","lightBlue"]]
     randomNumber = randint(0,len(quotes)-1) 
-    quote = quotes[randomNumber] 
+    #quote = quotes[randomNumber] 
  
     return render_template(
         'template.html',**locals())
- 
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)

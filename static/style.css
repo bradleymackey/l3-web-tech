@@ -47,7 +47,7 @@
 
 .movie {
     border-radius: 10px;
-    padding: 15px;
+    padding: 20px;
 }
 
 .stars {
@@ -80,6 +80,11 @@
     transform: scale(1.044);
     transition: all .2s cubic-bezier(.68, -.6, .265, 2.2);
     -webkit-transition: all .2s cubic-bezier(.68, -.6, .265, 2.2);
+}
+
+.card-img-top {
+    max-height: 250px;
+    object-fit: cover;
 }
 
 /* System Fonts as used by GitHub */
