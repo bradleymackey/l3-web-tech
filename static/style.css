@@ -45,6 +45,12 @@
     background: linear-gradient(to bottom right, #61B3F5, #0078DF)
 }
 
+
+.app {
+    /* required to pad top so we don't collide with the floating nav bar */
+    padding-top: 50px;
+}
+
 .movie {
     border-radius: 10px;
     padding: 20px;
@@ -103,9 +109,6 @@
     min-width: 300px;
 }
 
-.app {
-    padding-top: 50px;
-}
 
 
 .login-item {

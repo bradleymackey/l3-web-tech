@@ -5,14 +5,15 @@
 # 'reset profile' button at the top of the page that removes all information being held on the current user
 
 
+# how to pass in a parameter `name` that we can then use as local var
+# @app.route("/hello/<string:name>/")
+# def func(name):
+# // use name in the method
+
 from flask import Flask, flash, redirect, render_template, request, session, abort
 from random import randint
  
 app = Flask(__name__, static_url_path='/static')
- 
-@app.route("/")
-def index():
-    return "Flask App!"
 
 @app.route("/login/")
 def login():
@@ -20,10 +21,9 @@ def login():
     return render_template(
         'login.html',**locals())
  
-#@app.route("/hello/<string:name>")
-@app.route("/hello/<string:name>/")
-def hello(name):
-#    return name
+@app.route("/")
+def hello():
+    name = "moviename"
     title = "Movie Recommendations"
     quotes = [ "'If people do not believe that mathematics is simple, it is only because they do not realize how complicated life is.' -- John Louis von Neumann ",
                "'Computer science is no more about computers than astronomy is about telescopes' --  Edsger Dijkstra ",
