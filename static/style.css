@@ -48,7 +48,7 @@
 
 .app {
     /* required to pad top so we don't collide with the floating nav bar */
-    padding-top: 50px;
+    padding-top: 70px;
 }
 
 .movie {
@@ -77,6 +77,10 @@
 
 .card {
     border-radius: 10px;
+    color: #fff;
+}
+
+.card-body {
     color: #fff;
 }
 
