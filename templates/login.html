@@ -3,7 +3,10 @@
 
 <div class="login">
     <h1 class="login-item">Login</h1>
-    <form>
+    <div id="login-error-message" class="error-message alert alert-danger" role="alert" style="display: none;">
+        Please enter a valid username!
+    </div>
+    <form id="login-form">
         <div class="form-group login-item">
             <input type="text" class="form-control" id="username-field" aria-describedby="usernameHelp" placeholder="username">
             <small id="usernameHelp" class="form-text text-muted">Enter a username so we can create a new profile or load your previous preferences.</small>

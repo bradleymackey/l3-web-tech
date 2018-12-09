@@ -10,10 +10,16 @@
 # def func(name):
 # // use name in the method
 
-from flask import Flask, flash, redirect, render_template, request, session, abort
+from flask import Flask, flash, redirect, render_template, request, session, abort, send_from_directory
 from random import randint
+import os
  
 app = Flask(__name__, static_url_path='/static')
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @app.route("/login/")
 def login():

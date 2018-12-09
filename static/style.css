@@ -75,6 +75,11 @@
     font-weight: 600;
 }
 
+.rating-form {
+    padding: 20px;
+    font-size: 1.1em;
+}
+
 .card {
     border-radius: 10px;
     color: #fff;
@@ -84,7 +89,9 @@
     color: #fff;
 }
 
-
+.error-message {
+    font-weight: 600;
+}
 
 .card:hover {
     box-shadow: 0 20px 56px -12px rgba(0, 0, 0, .26);
