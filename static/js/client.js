@@ -34,11 +34,11 @@ $(function() {
     function logout() {
         Cookies.remove("user");
         window.location.href = "/login";
-        updateUsernameDisplay();
     }
 
     function changeLanguage(newLanguage) {
-
+        Cookies.set("lang",newLanguage);
+        window.location.href = "/";
     }
 
     function rateMovie(movie,rating) {
@@ -82,6 +82,14 @@ $(function() {
         errorNoUsername(false);
     })
 
+
+    $("#english-link").click(function() {
+        changeLanguage("en");
+    });
+
+    $("#french-link").click(function() {
+        changeLanguage("fr");
+    });
 
 
 

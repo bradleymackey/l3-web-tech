@@ -57,7 +57,6 @@
 }
 
 .stars {
-    padding-bottom: 10px;
 }
 
 .card-title {
@@ -69,10 +68,8 @@
 }
 
 .stars-text {
-    font-size: 1.1em;
-    padding-left: 5px;
-    padding-right: 5px;
-    font-weight: 600;
+    font-size: 0.9em;
+    font-weight: 300;
 }
 
 .rating-form {
