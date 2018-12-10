@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy.sparse.linalg import svds
+import time
 
 class RatingPredictor(object):
     """
@@ -9,29 +10,29 @@ class RatingPredictor(object):
 
     def __init__(self):
         print("reading database files in...")
-        self.read_files()
-        self.update_for_user_rating()
+        self.__read_files()
+        self.__update_model()
 
 
 
-    def read_files(self):
+    def __read_files(self):
         """
         reads the static, unchanging files from the movie database
         """
         self.existing_ratings_data = pd.read_csv("ml-latest-small/ratings.csv")
         self.movie_names = pd.read_csv("ml-latest-small/movies.csv")
         self.movie_links = pd.read_csv("ml-latest-small/links.csv")
+        self.custom_ratings_data = pd.read_csv("ml-latest-small/users.csv")
+        self.combined_ratings_data = self.existing_ratings_data.append(self.custom_ratings_data, ignore_index=False, sort=True)
         
-    def update_for_user_rating(self):
+        
+    def __update_model(self):
         """
         calculates the latest predictions for all users, making use of the latest user ratings data from our system
         """
-        self.custom_ratings_data = pd.read_csv("ml-latest-small/users.csv")
-        self.combined_ratings_data = self.existing_ratings_data.append(self.custom_ratings_data, ignore_index=False, sort=True)
-        # all mereged movie and rating data
+        # update the whole movie data table before we can calculate
         movie_data = pd.merge(self.combined_ratings_data, self.movie_names, on="movieId")
         self.movie_data = pd.merge(movie_data, self.movie_links, on="movieId")
-
         # calculate estimated ratings for each user!
         R_df = self.movie_data.pivot(index="userId",columns="movieId",values="rating").fillna(0)
         R = R_df.values # numpy array
@@ -43,6 +44,19 @@ class RatingPredictor(object):
         sigma = np.diag(sigma)
         all_user_predicted_ratings = np.dot(np.dot(U, sigma), Vt) + user_ratings_mean.reshape(-1,1)
         self.prediction_df = pd.DataFrame(all_user_predicted_ratings, columns=R_df.columns, index=R_df.index)
+
+    def user_rate(self,username,movie,stars):
+        """
+        user has rated a movie, model should be updated
+        """
+        t = time.gmtime()
+        timestamp = int(time.mktime(t))
+        new = pd.DataFrame([[username,movie,stars,timestamp]], columns=["userId","movieId","rating","timestamp"])
+        self.custom_ratings_data = self.custom_ratings_data.append(new, sort=True).drop_duplicates(subset=["userId","movieId"], keep='last')
+        self.combined_ratings_data = self.combined_ratings_data.append(new, sort=True).drop_duplicates(subset=["userId","movieId"], keep='last')
+        print(self.custom_ratings_data.head())
+        self.custom_ratings_data.to_csv("ml-latest-small/users.csv", index=False)
+        self.__update_model()
 
     def user_predictions(self,username):
         """
@@ -56,6 +70,9 @@ class RatingPredictor(object):
 
 
 pred = RatingPredictor()
-pred.update_for_user_rating()
-for i in pred.user_predictions("1"):
+for i in pred.user_predictions("crackio weener"):
+    print(i)
+pred.user_rate("crackio weener",1,5.0)
+print("updated estimates")
+for i in pred.user_predictions("crackio weener"):
     print(i)
