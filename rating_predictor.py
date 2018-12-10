@@ -9,11 +9,9 @@ class RatingPredictor(object):
     """
 
     def __init__(self):
-        print("reading database files in...")
+        # print("reading database files in...")
         self.__read_files()
         self.__update_model()
-
-
 
     def __read_files(self):
         """
@@ -21,10 +19,10 @@ class RatingPredictor(object):
         """
         self.existing_ratings_data = pd.read_csv("ml-latest-small/ratings.csv")
         self.movie_names = pd.read_csv("ml-latest-small/movies.csv")
+        self.number_movies = self.movie_names.shape[0]
         self.movie_links = pd.read_csv("ml-latest-small/links.csv")
         self.custom_ratings_data = pd.read_csv("ml-latest-small/users.csv")
         self.combined_ratings_data = self.existing_ratings_data.append(self.custom_ratings_data, ignore_index=False, sort=True)
-        
         
     def __update_model(self):
         """
@@ -54,7 +52,7 @@ class RatingPredictor(object):
         new = pd.DataFrame([[username,movie,stars,timestamp]], columns=["userId","movieId","rating","timestamp"])
         self.custom_ratings_data = self.custom_ratings_data.append(new, sort=True).drop_duplicates(subset=["userId","movieId"], keep='last')
         self.combined_ratings_data = self.combined_ratings_data.append(new, sort=True).drop_duplicates(subset=["userId","movieId"], keep='last')
-        print(self.custom_ratings_data.head())
+        # print(self.custom_ratings_data.head())
         self.custom_ratings_data.to_csv("ml-latest-small/users.csv", index=False)
         self.__update_model()
 
@@ -69,10 +67,10 @@ class RatingPredictor(object):
         return zip(predicted_for_user.index[0:100],predicted_for_user[0:100])
 
 
-pred = RatingPredictor()
-for i in pred.user_predictions("crackio weener"):
-    print(i)
-pred.user_rate("crackio weener",1,5.0)
-print("updated estimates")
-for i in pred.user_predictions("crackio weener"):
-    print(i)
+# pred = RatingPredictor()
+# for i in pred.user_predictions("crackio weener"):
+#     print(i)
+# pred.user_rate("crackio weener",1,5.0)
+# print("updated estimates")
+# for i in pred.user_predictions("crackio weener"):
+#     print(i)

@@ -13,9 +13,20 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 from random import randint
 import os
 from urllib.parse import unquote
- 
-app = Flask(__name__, static_url_path='/static')
+from dataset import update_dataset
+from rating_predictor import RatingPredictor
 
+print("updating movie dataset to latest version...")
+update_dataset()
+print("dataset updated!")
+print()
+print("creating rating predictor...")
+predictor = RatingPredictor()
+print("predictor created!")
+print()
+print("starting flask app...")
+
+app = Flask(__name__, static_url_path='/static')
 
 @app.route('/favicon.ico')
 def favicon():
@@ -40,7 +51,7 @@ def login():
 @app.route("/")
 def hello():
     name = "moviename that is very long indeed"
-    tot_num_movies = 12345
+    tot_num_movies = predictor.number_movies
     username = ""
     got_username = 'user' in request.cookies
     if got_username:
@@ -51,7 +62,7 @@ def hello():
         lang = request.cookies['lang']
         lang = unquote(lang)
     print("lang is",lang)
-    numrecs = 123
+    numrecs = 150
     remark = "a lot"
     if numrecs>100:
         if lang=="en":

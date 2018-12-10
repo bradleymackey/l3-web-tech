@@ -6,13 +6,13 @@
     <div class="alert alert-info" role="alert">
         {% if lang == 'en' %}
         <p>Welcome to your movie ratings service, <b>{{username}}</b>.</p>
-        <p>We have <b><code>{{numrecs}}</code></b> fine recommendations for you today!</p>
+        <p>We have <b>{{numrecs}}</b> fine recommendations for you today out of a possible <b>{{tot_num_movies}}</b> movies. These are the ones we think you will like the most.</p>
         {% else %}
         <p>Bienvenue sur votre service de classement de films, <b>{{username}}</b>.</p>
-        <p>Nous avons <b><code>{{numrecs}}</code></b> recommandations pour vous aujourd'hui!</p>
+        <p>Nous avons <b>{{numrecs}}</b> bonnes recommandations pour vous aujourd'hui sur un total de <b>{{tot_num_movies}}</b> films. Ce sont ceux que nous pensons que vous aimerez le plus.</p>
         {% endif %}
         {# i18n of this remark is handled in app.py, due to the complex nature of the content #}
-        {# this is just a remark based on the number of the items that are being reccomended to the user #}
+        {# this is just a remark based on the number of the items that are being recommended to the user #}
         <p>{{remark}}</p>
     </div>
 </div>
@@ -21,10 +21,10 @@
     <div class="alert alert-danger" role="alert">
         {% if lang == 'en' %}
         <p>Please login so we can show you personalised recommendations!</p>
-        <p>We have <b><code>{{tot_num_movies}}</code> movies</b> in our system, it would be a shame for them to go to waste!</p>
+        <p>We have <b>{{tot_num_movies}} movies</b> in our system, it would be a shame for them to go to waste!</p>
         {% else %}
         <p>Veuillez vous connecter afin que nous puissions vous montrer des recommandations personnalisées!</p>
-        <p>Nous avons <b><code>{{tot_num_movies}}</code></b> films</b> dans le système, il serait dommage qu'ils se perdent!</p>
+        <p>Nous avons <b>{{tot_num_movies}}</b> films</b> dans le système, il serait dommage qu'ils se perdent!</p>
         {% endif %}
     </div>
 </div>

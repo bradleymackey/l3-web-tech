@@ -23,9 +23,3 @@ def update_dataset():
     else:
         print("network error - could not update dataset")
 
-
-update_dataset()
-
-# ratings_data = pd.read_csv("ml-latest-small/ratings.csv")
-# data_top = ratings_data.head(450)
-# print(data_top)
