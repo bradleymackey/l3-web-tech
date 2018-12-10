@@ -30,6 +30,20 @@ def login():
 @app.route("/")
 def hello():
     name = "moviename that is very long indeed"
+    tot_num_movies = 12345
+    got_username = 'user' in request.cookies
+    if got_username:
+        username = request.cookies['user']
+    numrecs = 123
+    remark = "a lot"
+    if numrecs>100:
+        remark = "a lot of movies!"
+    elif numrecs>50:
+        remark = "quite a few movies!"
+    elif numrecs>25:
+        remark = "not many movies!"
+    else:
+        remark = "disappointing!"
     title = "Movie Recommendations"
     quotes = [ "'If people do not believe that mathematics is simple, it is only because they do not realize how complicated life is.' -- John Louis von Neumann ",
                "'Computer science is no more about computers than astronomy is about telescopes' --  Edsger Dijkstra ",

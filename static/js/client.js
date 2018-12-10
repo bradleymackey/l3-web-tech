@@ -91,10 +91,19 @@ $(function() {
         changeLanguage("fr");
     });
 
+    $('#rating-modal').on('shown.bs.modal', function () {
+        console.log("modal focused!");
+    });
 
-
-
-
+    $(".card").click(function() {
+        var currentUser = Cookies.get("user");
+        if (currentUser === undefined) {
+            showLoginPage();
+            return;
+        } else {
+            
+        }
+    });
 
 
 

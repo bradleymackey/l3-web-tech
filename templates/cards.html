@@ -1,12 +1,30 @@
 {% extends "layout.html" %}
 {% block cards %}
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+{% if got_username %}
+<div class="banner-message">
+    <div class="alert alert-info" role="alert">
+      <p>Welcome to your movie ratings service, <b>{{username}}</b>.</p>
+      <p>We have <b><code>{{numrecs}}</code></b> fine recommendations for you today!</p>
+      <p>That is {{remark}}</p>
+    </div>
+</div>
+{% else %}
+<div class="banner-message">
+    <div class="alert alert-danger" role="alert">
+      <p>Please login so we can show you personalised recommendations!</p>
+      <p>We have <b><code>{{tot_num_movies}}</code> movies</b> in our system, it would be a shame for them to go to waste!</p>
+    </div>
+</div>
+{% endif %}
+
+
+{# rating modal #}
+<div class="modal fade" id="rating-modal" tabindex="-1" role="dialog" aria-labelledby="rating-modal-title" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Rate Movie</h5>
+        <h5 class="modal-title" id="rating-modal-title">Rate Movie</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -28,6 +46,8 @@
   </div>
 </div>
 
+{# container holding the rows of movies to display #}
+{# we batch into 3 so there are max 3 movies per row in the solution #}
 <div class="container">
 
     {# break items into batches of 3, for a maximum of 3 per row #}
@@ -40,7 +60,7 @@
         {% set background = card_backgrounds|random %}
       
         <div class="movie col">
-          <a class="card" data-toggle="modal" data-target="#exampleModalCenter">
+          <a class="card" data-toggle="modal" data-target="#rating-modal">
             <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg" alt="Card image cap">
             <div class="card-body {{background}}">
               <div class="badge badge-dark">
