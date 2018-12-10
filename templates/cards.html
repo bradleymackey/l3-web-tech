@@ -4,16 +4,35 @@
 {% if got_username %}
 <div class="banner-message">
     <div class="alert alert-info" role="alert">
-      <p>Welcome to your movie ratings service, <b>{{username}}</b>.</p>
-      <p>We have <b><code>{{numrecs}}</code></b> fine recommendations for you today!</p>
-      <p>That is {{remark}}</p>
+        {% if lang == 'en' %}
+        <p>Welcome to your movie ratings service, <b>{{username}}</b>.</p>
+        <p>We have <b><code>{{numrecs}}</code></b> fine recommendations for you today!</p>
+        {% else %}
+        <p>Bienvenue sur votre service de classement de films, <b>{{username}}</b>.</p>
+        <p>Nous avons <b><code>{{numrecs}}</code></b> recommandations pour vous aujourd'hui!</p>
+        {% endif %}
+        {# i18n of this remark is handled in app.py, due to the complex nature of the content #}
+        <p>{{remark}}</p>
     </div>
 </div>
 {% else %}
 <div class="banner-message">
     <div class="alert alert-danger" role="alert">
-      <p>Please login so we can show you personalised recommendations!</p>
-      <p>We have <b><code>{{tot_num_movies}}</code> movies</b> in our system, it would be a shame for them to go to waste!</p>
+      <p>
+        {% if lang == 'en' %}
+        Please login so we can show you personalised recommendations!
+        {% else %}
+        Veuillez vous connecter afin que nous puissions vous montrer des recommandations personnalisées!
+        {% endif %}
+      </p>
+      <p>
+        
+        {% if lang == 'en' %}
+        We have <b><code>{{tot_num_movies}}</code> movies</b> in our system, it would be a shame for them to go to waste!
+        {% else %}
+        Nous avons <b></b><code>{{tot_num_movies}}</code> films</b> dans le système, il serait dommage qu'ils se perdent!
+        {% endif %}
+      </p>
     </div>
 </div>
 {% endif %}
@@ -24,7 +43,13 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="rating-modal-title">Rate Movie</h5>
+        <h5 class="modal-title" id="rating-modal-title">
+          {% if lang == "en" %}
+          Rate Movie
+          {% else %}
+          Noter le film
+          {% endif %}
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -39,8 +64,20 @@
           </form> 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save rating</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          {% if lang == "en" %}
+          Close
+          {% else %}
+          Fermer
+          {% endif %}
+        </button>
+        <button type="button" class="btn btn-primary">
+          {% if lang == "en" %}
+          Save Rating
+          {% else %}
+          Enregistrer le classement
+          {% endif %}
+        </button>
       </div>
     </div>
   </div>
@@ -64,10 +101,18 @@
             <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg" alt="Card image cap">
             <div class="card-body {{background}}">
               <div class="badge badge-dark">
+                {% if lang == "en" %}
                 RECOMMENDED
+                {% else %}
+                CONSEILLÉ
+                {% endif %}
               </div>
               <div class="badge badge-light">
+                {% if lang == "en" %}
                 YOU RATED
+                {% else %}
+                VOUS AVEZ ÉVALUÉ
+                {% endif %}
               </div>
               <div class="stars">
                   <span class="fa fa-star checked star1"></span>

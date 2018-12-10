@@ -4,7 +4,6 @@
 # then we start to display the recommnedations to you
 # 'reset profile' button at the top of the page that removes all information being held on the current user
 
-
 # how to pass in a parameter `name` that we can then use as local var
 # @app.route("/hello/<string:name>/")
 # def func(name):
@@ -13,8 +12,10 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort, send_from_directory
 from random import randint
 import os
+from urllib.parse import unquote
  
 app = Flask(__name__, static_url_path='/static')
+
 
 @app.route('/favicon.ico')
 def favicon():
@@ -23,6 +24,15 @@ def favicon():
 
 @app.route("/login/")
 def login():
+    got_username = 'user' in request.cookies
+    username = ""
+    if got_username:
+        username = request.cookies['user']
+        username = unquote(username)
+    lang = "en"
+    if 'lang' in request.cookies:
+        lang = request.cookies['lang']
+        lang = unquote(lang)
     title = "Movie Recommendations - Login"
     return render_template(
         'login.html',**locals())
@@ -31,19 +41,38 @@ def login():
 def hello():
     name = "moviename that is very long indeed"
     tot_num_movies = 12345
+    username = ""
     got_username = 'user' in request.cookies
     if got_username:
         username = request.cookies['user']
+        username = unquote(username)
+    lang = "en"
+    if 'lang' in request.cookies:
+        lang = request.cookies['lang']
+        lang = unquote(lang)
+    print("lang is",lang)
     numrecs = 123
     remark = "a lot"
     if numrecs>100:
-        remark = "a lot of movies!"
+        if lang=="en":
+            remark = "That is a lot of movies!"
+        else:
+            remark = "C'est beaucoup de films!"
     elif numrecs>50:
-        remark = "quite a few movies!"
+        if lang=="en":
+            remark = "That is quite a few movies!"
+        else:
+            remark = "C'est pas mal de films!"
     elif numrecs>25:
-        remark = "not many movies!"
+        if lang =="en":
+            remark = "That is not many movies!"
+        else:
+            remark = "Ce n'est pas beaucoup de films!"
     else:
-        remark = "disappointing!"
+        if lang=="en":
+            remark = "That is disappointing!"
+        else:
+            remark = "C'est décevant!"
     title = "Movie Recommendations"
     quotes = [ "'If people do not believe that mathematics is simple, it is only because they do not realize how complicated life is.' -- John Louis von Neumann ",
                "'Computer science is no more about computers than astronomy is about telescopes' --  Edsger Dijkstra ",

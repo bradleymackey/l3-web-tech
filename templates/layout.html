@@ -12,7 +12,11 @@
     <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light">
         <a class="navbar-brand" href="/">
             <img src="/static/images/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+            {% if lang == 'en' %}
             Movie Recommendations
+            {% else %}
+            Recommandations de film
+            {% endif %}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,7 +25,11 @@
             <ul class="navbar-nav mr-auto">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="language-selected" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  English
+                    {% if lang == 'en' %}
+                    English
+                    {% else %}
+                    Français
+                    {% endif %}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="language-selected">
                   <a id="english-link" class="dropdown-item" href="#">English</a>
@@ -32,7 +40,13 @@
             <form id="toggle-login-form" class="form-inline my-2 my-lg-0">
                 {# this is populated with the currently logged in user's username #}
                 <span id="username-label" class="username"></span>
-                <button id="login-button" class="btn btn-danger my-2 my-sm-0" type="submit">Logout</button>
+                <button id="login-button" class="btn btn-danger my-2 my-sm-0" type="submit">
+                    {% if lang == 'en' %}
+                    Logout
+                    {% else %}
+                    Connectez - Out
+                    {% endif %}
+                </button>
             </form>
         </div>
     </nav>

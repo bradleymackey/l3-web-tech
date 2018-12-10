@@ -2,16 +2,38 @@
 {% block login %}
 
 <div class="login">
-    <h1 class="login-item">Login</h1>
+    <h1 class="login-item">
+        {% if lang == 'en' %}
+        Login
+        {% else %}
+        S'identifier
+        {% endif %}
+    </h1>
     <div id="login-error-message" class="error-message alert alert-danger" role="alert" style="display: none;">
+        {% if lang == 'en' %}
         Please enter a valid username!
+        {% else %}
+        Merci d'entrer un nom d'utilisateur valide!
+        {% endif %}
     </div>
     <form id="login-form">
         <div class="form-group login-item">
             <input type="text" class="form-control" id="username-field" aria-describedby="usernameHelp" placeholder="username">
-            <small id="usernameHelp" class="form-text text-muted">Enter a username so we can create a new profile or load your previous preferences.</small>
+            <small id="usernameHelp" class="form-text text-muted">
+                {% if lang == 'en' %}
+                Enter a username so we can create a new profile or load your previous preferences.
+                {% else %}
+                Entrez un nom d'utilisateur afin que nous puissions créer un nouveau profil ou charger vos préférences précédentes.
+                {% endif %}
+            </small>
         </div>
-        <button type="submit" class="btn btn-success login-item">Login</button>
+        <button type="submit" class="btn btn-success login-item">
+            {% if lang == 'en' %}
+            Login
+            {% else %}
+            S'identifier
+            {% endif %}
+        </button>
     </form>
 </div>
 

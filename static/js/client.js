@@ -5,16 +5,28 @@ $(function() {
 
     function updateUsernameDisplay() {
         var currentUsername = Cookies.get("user");
+        var language = Cookies.get("lang");
+        if (language === undefined) {
+            language = "en";
+        }
         if (currentUsername !== undefined) {
             $("#username-label").html(currentUsername);
             $("#login-button").removeClass("btn-success");
             $("#login-button").addClass("btn-danger");
-            $("#login-button").html("Logout");
+            if (language === "en") {
+                $("#login-button").html("Logout");
+            } else {
+                $("#login-button").html("Connectez - Out");
+            }
         } else {
             $("#username-label").html("");
             $("#login-button").removeClass("btn-danger");
             $("#login-button").addClass("btn-success");
-            $("#login-button").html("Login");
+            if (language === "en") {
+                $("#login-button").html("Login");
+            } else {
+                $("#login-button").html("S'identifier");
+            }
         }
     }
 
@@ -38,7 +50,7 @@ $(function() {
 
     function changeLanguage(newLanguage) {
         Cookies.set("lang",newLanguage);
-        window.location.href = "/";
+        location.reload();
     }
 
     function rateMovie(movie,rating) {
@@ -101,7 +113,7 @@ $(function() {
             showLoginPage();
             return;
         } else {
-            
+
         }
     });
 
