@@ -56,11 +56,15 @@
     padding: 20px;
 }
 
-.stars {
+.star-elements {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .card-title {
     font-weight: 600;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .badge {

@@ -12,27 +12,20 @@
         <p>Nous avons <b><code>{{numrecs}}</code></b> recommandations pour vous aujourd'hui!</p>
         {% endif %}
         {# i18n of this remark is handled in app.py, due to the complex nature of the content #}
+        {# this is just a remark based on the number of the items that are being reccomended to the user #}
         <p>{{remark}}</p>
     </div>
 </div>
 {% else %}
 <div class="banner-message">
     <div class="alert alert-danger" role="alert">
-      <p>
         {% if lang == 'en' %}
-        Please login so we can show you personalised recommendations!
+        <p>Please login so we can show you personalised recommendations!</p>
+        <p>We have <b><code>{{tot_num_movies}}</code> movies</b> in our system, it would be a shame for them to go to waste!</p>
         {% else %}
-        Veuillez vous connecter afin que nous puissions vous montrer des recommandations personnalisées!
+        <p>Veuillez vous connecter afin que nous puissions vous montrer des recommandations personnalisées!</p>
+        <p>Nous avons <b><code>{{tot_num_movies}}</code></b> films</b> dans le système, il serait dommage qu'ils se perdent!</p>
         {% endif %}
-      </p>
-      <p>
-        
-        {% if lang == 'en' %}
-        We have <b><code>{{tot_num_movies}}</code> movies</b> in our system, it would be a shame for them to go to waste!
-        {% else %}
-        Nous avons <b></b><code>{{tot_num_movies}}</code> films</b> dans le système, il serait dommage qu'ils se perdent!
-        {% endif %}
-      </p>
     </div>
 </div>
 {% endif %}
@@ -114,16 +107,23 @@
                 VOUS AVEZ ÉVALUÉ
                 {% endif %}
               </div>
-              <div class="stars">
-                  <span class="fa fa-star checked star1"></span>
-                  <span class="fa fa-star checked star2"></span>
-                  <span class="fa fa-star checked star3"></span>
-                  <span class="fa fa-star checked star4"></span>
-                  <span class="fa fa-star checked star5"></span>
+              <div class="star-elements">
+                  <div class="stars">
+                      <span class="fa fa-star checked star1"></span>
+                      <span class="fa fa-star checked star2"></span>
+                      <span class="fa fa-star checked star3"></span>
+                      <span class="fa fa-star checked star4"></span>
+                      <span class="fa fa-star checked star5"></span>
+                  </div>
+                  <div class="stars-text">(2.3 
+                    {% if lang == "en" %}
+                    stars)
+                    {% else %}
+                    étoiles)
+                    {% endif %}
+                  </div>
               </div>
-              <div class="stars-text">(2.3 stars)</div>
               <h2 class="card-title">{{name}}</h2>
-              <p class="card-text">{{quote}}</p>
             </div>
           </a>
         </div>
