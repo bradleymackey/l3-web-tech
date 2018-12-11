@@ -93,7 +93,7 @@ class RatingPredictor(object):
         # predicted_for_user = (predicted_for_user - min_value) / (max_value - min_value)
         predicted_for_user = pd.merge(predicted_for_user, self.movie_names, on="movieId")
          
-        print(predicted_for_user.head())
+        # print(predicted_for_user.head())
         results = [tuple(row) for row in predicted_for_user.values][0:number]
         values = [tup[2] for tup in results]
         max_val = max(values)

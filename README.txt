@@ -20,4 +20,5 @@ pandas, flask, numpy, requests, scipy
 - friendly website user interface
 - language selection on website
 - login/logout as users
+- as users rate movies, suggestions dynamically update
 - normalised recommendation algorithm (ensures there is always a good match)

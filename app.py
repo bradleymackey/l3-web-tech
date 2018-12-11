@@ -73,12 +73,12 @@ def hello():
     predictions = []
     got_username = 'user' in request.cookies
     if got_username:
-        print("GOT COOKIE")
+        # print("GOT COOKIE")
         # get user predictions from the model
         username = unquote(request.cookies['user'])
         predictions = predictor.user_predictions(username,number=250)
     else:
-        print("NO COOKIE!")
+        # print("NO COOKIE!")
         # if there is no user logged in, just show the recommendations for a random person
         predictions = predictor.user_predictions("khsfkjhsfkdh",number=250)
     # are these ratings relevant to this user?
@@ -90,7 +90,7 @@ def hello():
         print("ratings for user",ratings_for_user)
         print("username",username)
         if ratings_for_user!=username:
-            print("NO MATCH!")
+            # print("NO MATCH!")
             this_user_ratings = False
     print("number of predictions for",username,":",len(predictions))
     lang = "en"
