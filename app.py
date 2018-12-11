@@ -9,7 +9,7 @@
 # def func(name):
 # // use name in the method
 
-from flask import Flask, flash, redirect, render_template, request, session, abort, send_from_directory
+from flask import Flask, flash, redirect, render_template, request, session, abort, send_from_directory, jsonify
 from random import randint
 import os
 from urllib.parse import unquote
@@ -90,10 +90,13 @@ def hello():
     # are these ratings relevant to this user?
     # if not, we have no ratings for them, so we can't show relevant ratings yet
     # we should not show the 'match' thing in the UI
-    this_user_ratings = True
+    this_user_ratings = len(predictions)>0
     if len(predictions)>0:
         ratings_for_user = predictions[0][0] # look at userId of the first prediction
+        print("ratings for user",ratings_for_user)
+        print("username",username)
         if ratings_for_user!=username:
+            print("NO MATCH!")
             this_user_ratings = False
     print("number of predictions for",username,":",len(predictions))
     lang = "en"
@@ -102,18 +105,20 @@ def hello():
         lang = unquote(lang)
     numrecs = 250
     remark = get_remark(lang,numrecs)
-    quotes = [ "'If people do not believe that mathematics is simple, it is only because they do not realize how complicated life is.' -- John Louis von Neumann ",
-               "'Computer science is no more about computers than astronomy is about telescopes' --  Edsger Dijkstra ",
-               "'To understand recursion you must first understand recursion..' -- Unknown",
-               "'You look at things that are and ask, why? I dream of things that never were and ask, why not?' -- Unknown",
-               "'Mathematics is the key and door to the sciences.' -- Galileo Galilei",
-               "'Not everyone will understand your journey. Thats fine. Its not their journey to make sense of. Its yours.' -- Unknown"  ]
+
     card_backgrounds = ["card-bg-"+col for col in ["purple","blue","pink","green","red","orange","yellow","gray","darkGray","lightBlue"]]
-    randomNumber = randint(0,len(quotes)-1) 
-    #quote = quotes[randomNumber] 
  
     return render_template(
         'cards.html',**locals())
+
+@app.route('/review/<movie_id>', methods = ['POST'])
+def user(movie_id):
+    username = request.form['user']
+    stars_to_rate = request.form['stars']
+    predictor.user_rate(username,movie_id,stars_to_rate)
+    good = {'status':'good'}
+    return jsonify(good)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)

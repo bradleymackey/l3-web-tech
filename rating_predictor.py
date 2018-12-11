@@ -51,8 +51,10 @@ class RatingPredictor(object):
         t = time.gmtime()
         timestamp = int(time.mktime(t))
         new = pd.DataFrame([[username,movie,stars,timestamp]], columns=["userId","movieId","rating","timestamp"])
-        self.custom_ratings_data = self.custom_ratings_data.append(new, sort=True).drop_duplicates(subset=["userId","movieId"], keep='last')
-        self.combined_ratings_data = self.combined_ratings_data.append(new, sort=True).drop_duplicates(subset=["userId","movieId"], keep='last')
+        self.custom_ratings_data = self.custom_ratings_data.drop(self.custom_ratings_data[(self.custom_ratings_data.movieId == new.iat[0,1]) & (self.custom_ratings_data.userId == new.iat[0,0])].index)
+        self.combined_ratings_data = self.combined_ratings_data.drop(self.combined_ratings_data[(self.combined_ratings_data.movieId == new.iat[0,1]) & (self.combined_ratings_data.userId == new.iat[0,0])].index)
+        self.custom_ratings_data = self.custom_ratings_data.append(new, sort=False)
+        self.combined_ratings_data = self.combined_ratings_data.append(new, sort=False)
         # print(self.custom_ratings_data.head())
         self.custom_ratings_data.to_csv("users.csv", index=False)
 
@@ -79,6 +81,7 @@ class RatingPredictor(object):
         for userId, movieId, rating, title, genres in results:
             # turn the results into a list of strings instead of concat list
             genre_list = genres.split("|")
+            print(userId,movieId,rating,title)
             results[itr] = (userId,movieId,rating,title,genre_list)
             itr += 1
         return results

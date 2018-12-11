@@ -76,7 +76,7 @@
           Fermer
           {% endif %}
         </button>
-        <button type="button" class="btn btn-primary">
+        <button id="save-rating-button" type="button" class="btn btn-primary">
           {% if lang == "en" %}
           Save Rating
           {% else %}
@@ -117,7 +117,7 @@
         
       
         <div class="movie col">
-          <a class="card" data-toggle="modal" data-target="#rating-modal">
+          <a id="{{movie_id}}" class="card" data-toggle="modal" data-target="#rating-modal">
             <!-- <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg" alt="Card image cap"> -->
             <div class="card-body {{background}}">
               <h2 class="card-title">{{movie_title}}</h2>
