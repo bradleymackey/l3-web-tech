@@ -99,12 +99,13 @@ img .no {
 }
 
 .card {
-    border-radius: 10px;
+    border-collapse: separate; 
     color: #fff;
 }
 
 .card-body {
     color: #fff;
+    border-collapse: separate; 
 }
 
 .error-message {
