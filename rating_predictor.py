@@ -21,7 +21,7 @@ class RatingPredictor(object):
         self.movie_names = pd.read_csv("ml-latest-small/movies.csv")
         self.number_movies = self.movie_names.shape[0]
         self.movie_links = pd.read_csv("ml-latest-small/links.csv")
-        self.custom_ratings_data = pd.read_csv("ml-latest-small/users.csv")
+        self.custom_ratings_data = pd.read_csv("users.csv")
         self.combined_ratings_data = self.existing_ratings_data.append(self.custom_ratings_data, ignore_index=False, sort=True)
         
     def __update_model(self):
@@ -53,18 +53,29 @@ class RatingPredictor(object):
         self.custom_ratings_data = self.custom_ratings_data.append(new, sort=True).drop_duplicates(subset=["userId","movieId"], keep='last')
         self.combined_ratings_data = self.combined_ratings_data.append(new, sort=True).drop_duplicates(subset=["userId","movieId"], keep='last')
         # print(self.custom_ratings_data.head())
-        self.custom_ratings_data.to_csv("ml-latest-small/users.csv", index=False)
+        self.custom_ratings_data.to_csv("users.csv", index=False)
+
+        # now we have added a new entry to the dataset, we need to recompute all of the ratings!
         self.__update_model()
 
-    def user_predictions(self,username):
+    def user_predictions(self,username,number=250):
         """
         returns top 150 movie predictions for a given user for a given model state
-        returned in format [((username,movieId), estimated star rating)]
+        returned in format [(userId, movieId, rating, title, [genres])]
         """
         user_regex = "^" + username + "$"
         predicted_for_user = self.prediction_df.filter(axis=0, regex=user_regex).T
-        predicted_for_user = predicted_for_user.unstack(level=0).sort_values(ascending=False)
-        return zip(predicted_for_user.index[0:100],predicted_for_user[0:100])
+        predicted_for_user = predicted_for_user.unstack(level=0).sort_values(ascending=False).reset_index()
+        predicted_for_user = pd.merge(predicted_for_user, self.movie_names, on="movieId")
+        results = [tuple(row) for row in predicted_for_user.values][0:number]
+        itr = 0
+        for userId, movieId, rating, title, genres in results:
+            # turn the results into a list of strings instead of concat list
+            genre_list = genres.split("|")
+            results[itr] = (userId,movieId,rating,title,genre_list)
+            itr += 1
+        return results
+
 
 
 # pred = RatingPredictor()

@@ -21,5 +21,5 @@ def update_dataset():
         z.extractall()
         print("dataset updated at: {:.1f}".format(time.time()))
     else:
-        print("network error - could not update dataset")
+        print("[NETWORK ERROR] - could not update dataset")
 

@@ -59,21 +59,36 @@
 .star-elements {
     padding-top: 10px;
     padding-bottom: 10px;
+    text-align: center;
 }
 
 .card-title {
     font-weight: 600;
     padding-top: 10px;
     padding-bottom: 10px;
+    text-align: center;
 }
 
 .badge {
     margin-bottom: 10px;
 }
 
+.genres {
+    text-align: center;
+}
+
 .stars-text {
     font-size: 0.9em;
     font-weight: 300;
+}
+
+img .no {
+    fill: white;
+}
+
+.stars-match-text {
+    font-weight: 600;
+    font-size: 1.1em;
 }
 
 .rating-form {

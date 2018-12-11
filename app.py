@@ -26,6 +26,32 @@ print("predictor created!")
 print()
 print("starting flask app...")
 
+
+def get_remark(lang,numrecs):
+    """
+    gets a localised remark for a given number of movies
+    """
+    if numrecs>100:
+        if lang=="en":
+            return "That is a lot of movies!"
+        else:
+            return "C'est beaucoup de films!"
+    elif numrecs>50:
+        if lang=="en":
+            return "That is quite a few movies!"
+        else:
+            return "C'est pas mal de films!"
+    elif numrecs>25:
+        if lang =="en":
+            return "That is not many movies!"
+        else:
+            return "Ce n'est pas beaucoup de films!"
+    else:
+        if lang=="en":
+            return "That is disappointing!"
+        else:
+            return "C'est décevant!"
+
 app = Flask(__name__, static_url_path='/static')
 
 @app.route('/favicon.ico')
@@ -44,7 +70,6 @@ def login():
     if 'lang' in request.cookies:
         lang = request.cookies['lang']
         lang = unquote(lang)
-    title = "Movie Recommendations - Login"
     return render_template(
         'login.html',**locals())
  
@@ -53,38 +78,23 @@ def hello():
     name = "moviename that is very long indeed"
     tot_num_movies = predictor.number_movies
     username = ""
+    predictions = []
     got_username = 'user' in request.cookies
     if got_username:
-        username = request.cookies['user']
-        username = unquote(username)
+        # get user predictions from the model
+        username = unquote(request.cookies['user'])
+        predictions = predictor.user_predictions(username)
+    else:
+        # if there is no user logged in, just show the recommendations for person number 1
+        predictions = predictor.user_predictions("1",number=250)
+    for i in predictions:
+        print(i)
     lang = "en"
     if 'lang' in request.cookies:
         lang = request.cookies['lang']
         lang = unquote(lang)
-    print("lang is",lang)
-    numrecs = 150
-    remark = "a lot"
-    if numrecs>100:
-        if lang=="en":
-            remark = "That is a lot of movies!"
-        else:
-            remark = "C'est beaucoup de films!"
-    elif numrecs>50:
-        if lang=="en":
-            remark = "That is quite a few movies!"
-        else:
-            remark = "C'est pas mal de films!"
-    elif numrecs>25:
-        if lang =="en":
-            remark = "That is not many movies!"
-        else:
-            remark = "Ce n'est pas beaucoup de films!"
-    else:
-        if lang=="en":
-            remark = "That is disappointing!"
-        else:
-            remark = "C'est décevant!"
-    title = "Movie Recommendations"
+    numrecs = 250
+    remark = get_remark(lang,numrecs)
     quotes = [ "'If people do not believe that mathematics is simple, it is only because they do not realize how complicated life is.' -- John Louis von Neumann ",
                "'Computer science is no more about computers than astronomy is about telescopes' --  Edsger Dijkstra ",
                "'To understand recursion you must first understand recursion..' -- Unknown",
