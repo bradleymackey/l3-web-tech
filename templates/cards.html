@@ -99,12 +99,12 @@
   
       {% for pred in predictions_row %}
   
-        {% set background = card_backgrounds|random %}
         {# extract needed data from the predictions tuple (defined in rating_predictor.py) #}
         {% set movie_id = pred.1 %}
         {% set rating = pred.2|float|round(1, 'floor') %}
         {% set movie_title = pred.3 %}
         {% set genres = pred.4 %}
+        {% set background = pred.5 %}
 
         {# if the rating is greater than 5, just make it 5 #}
         {% if rating > 5.0 %}

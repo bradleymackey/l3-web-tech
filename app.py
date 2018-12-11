@@ -81,12 +81,14 @@ def hello():
     predictions = []
     got_username = 'user' in request.cookies
     if got_username:
+        print("GOT COOKIE")
         # get user predictions from the model
         username = unquote(request.cookies['user'])
         predictions = predictor.user_predictions(username,number=250)
     else:
-        # if there is no user logged in, just show the recommendations for person number 1
-        predictions = predictor.user_predictions("1",number=250)
+        print("NO COOKIE!")
+        # if there is no user logged in, just show the recommendations for a random person
+        predictions = predictor.user_predictions("khsfkjhsfkdh",number=250)
     # are these ratings relevant to this user?
     # if not, we have no ratings for them, so we can't show relevant ratings yet
     # we should not show the 'match' thing in the UI
@@ -107,6 +109,11 @@ def hello():
     remark = get_remark(lang,numrecs)
 
     card_backgrounds = ["card-bg-"+col for col in ["purple","blue","pink","green","red","orange","yellow","gray","darkGray","lightBlue"]]
+    itr = 0
+    for userId, movieId, rating, title, genres in predictions:
+        background = card_backgrounds[abs(hash(title)) % len(card_backgrounds)]
+        predictions[itr] = (userId,movieId,rating,title,genres,background)
+        itr += 1
  
     return render_template(
         'cards.html',**locals())

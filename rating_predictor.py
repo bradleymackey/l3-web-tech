@@ -14,6 +14,15 @@ class RatingPredictor(object):
         self.__read_files()
         self.__update_model()
 
+    def normalize(self,df):
+        # https://stackoverflow.com/a/29651514
+        result = df.copy()
+        for feature_name in df.columns:
+            max_value = df[feature_name].max()
+            min_value = df[feature_name].min()
+            result[feature_name] = (df[feature_name] - min_value) / (max_value - min_value)
+        return result
+
     def __read_files(self):
         """
         reads the static, unchanging files from the movie database
@@ -81,20 +90,27 @@ class RatingPredictor(object):
         user_regex = "^" + username + "$"
         predicted_for_user = self.prediction_df.filter(axis=0, regex=user_regex).T
         # if there are no current ratings for this user, show them a random user (1-10's stuff, so we can get an idea of what they like)
+        pd.set_option('display.max_columns', None) 
         if predicted_for_user.empty:
             user_to_use = str(random.randint(1,10))
             print("user has no ratings currently. showing user",user_to_use,"preferences instead")
             predicted_for_user = self.prediction_df.filter(axis=0, regex="^"+user_to_use+"$").T
         predicted_for_user = predicted_for_user.unstack(level=0).sort_values(ascending=False).reset_index()
+        # predicted_for_user = (predicted_for_user - min_value) / (max_value - min_value)
         predicted_for_user = pd.merge(predicted_for_user, self.movie_names, on="movieId")
-        print(predicted_for_user)
+         
+        print(predicted_for_user.head())
         results = [tuple(row) for row in predicted_for_user.values][0:number]
+        values = [tup[2] for tup in results]
+        max_val = max(values)
+        min_val = min(values)
         itr = 0
         for userId, movieId, rating, title, genres in results:
             # turn the results into a list of strings instead of concat list
             genre_list = genres.split("|")
-            print(userId,movieId,rating,title)
-            results[itr] = (userId,movieId,rating,title,genre_list)
+            norm_rating = (rating - min_val)/(max_val-min_val)
+            print(userId,movieId,norm_rating*5,title)
+            results[itr] = (userId,movieId,norm_rating*5,title,genre_list)
             itr += 1
         return results
 
