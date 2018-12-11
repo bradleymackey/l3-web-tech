@@ -83,12 +83,19 @@ def hello():
     if got_username:
         # get user predictions from the model
         username = unquote(request.cookies['user'])
-        predictions = predictor.user_predictions(username)
+        predictions = predictor.user_predictions(username,number=250)
     else:
         # if there is no user logged in, just show the recommendations for person number 1
         predictions = predictor.user_predictions("1",number=250)
-    for i in predictions:
-        print(i)
+    # are these ratings relevant to this user?
+    # if not, we have no ratings for them, so we can't show relevant ratings yet
+    # we should not show the 'match' thing in the UI
+    this_user_ratings = True
+    if len(predictions)>0:
+        ratings_for_user = predictions[0][0] # look at userId of the first prediction
+        if ratings_for_user!=username:
+            this_user_ratings = False
+    print("number of predictions for",username,":",len(predictions))
     lang = "en"
     if 'lang' in request.cookies:
         lang = request.cookies['lang']

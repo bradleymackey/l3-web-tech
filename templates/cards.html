@@ -6,14 +6,26 @@
     <div class="alert alert-info" role="alert">
         {% if lang == 'en' %}
         <p>Welcome to your movie ratings service, <b>{{username}}</b>.</p>
-        <p>We have <b>{{numrecs}}</b> fine recommendations for you today out of a possible <b>{{tot_num_movies}}</b> movies. These are the ones we think you will like the most.</p>
+        {% if this_user_ratings %}
+          <p>We have <b>{{numrecs}}</b> fine recommendations for you today out of a possible <b>{{tot_num_movies}}</b> movies. These are the ones we think you will like the most.</p>
+          {# i18n of this remark is handled in app.py, due to the complex nature of the content #}
+          {# this is just a remark based on the number of the items that are being recommended to the user #}
+          <p>{{remark}}</p>
+        {% else %}
+          <p>We do not have any suggestions for you at the moment. <b>Please rate some movies so we can provide suggestions</b>.</p>
+        {% endif %}
         {% else %}
         <p>Bienvenue sur votre service de classement de films, <b>{{username}}</b>.</p>
-        <p>Nous avons <b>{{numrecs}}</b> bonnes recommandations pour vous aujourd'hui sur un total de <b>{{tot_num_movies}}</b> films. Ce sont ceux que nous pensons que vous aimerez le plus.</p>
+        {% if this_user_ratings %}
+          <p>Nous avons <b>{{numrecs}}</b> bonnes recommandations pour vous aujourd'hui sur un total de <b>{{tot_num_movies}}</b> films. Ce sont ceux que nous pensons que vous aimerez le plus.</p>
+          {# i18n of this remark is handled in app.py, due to the complex nature of the content #}
+          {# this is just a remark based on the number of the items that are being recommended to the user #}
+          <p>{{remark}}</p>
+        {% else %}
+          <p>Nous n'avons aucune suggestion pour vous pour le moment. <b>S'il vous plaît noter certains films afin que nous puissions fournir des suggestions.</b>.</p>
         {% endif %}
-        {# i18n of this remark is handled in app.py, due to the complex nature of the content #}
-        {# this is just a remark based on the number of the items that are being recommended to the user #}
-        <p>{{remark}}</p>
+        {% endif %}
+        
     </div>
 </div>
 {% else %}
@@ -116,6 +128,7 @@
                   </div>
                 {% endfor %}
               </div>
+              {% if this_user_ratings %}
               <div class="star-elements">
                   <div class="stars-match-text">
                     {% if lang == "en" %}
@@ -152,6 +165,7 @@
                     {% endif %}
                   </div>
               </div>
+              {% endif %}
             </div>
           </a>
         </div>

@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy.sparse.linalg import svds
 import time
+import random
 
 class RatingPredictor(object):
     """
@@ -65,8 +66,14 @@ class RatingPredictor(object):
         """
         user_regex = "^" + username + "$"
         predicted_for_user = self.prediction_df.filter(axis=0, regex=user_regex).T
+        # if there are no current ratings for this user, show them a random user (1-10's stuff, so we can get an idea of what they like)
+        if predicted_for_user.empty:
+            user_to_use = str(random.randint(1,10))
+            print("user has no ratings currently. showing user",user_to_use,"preferences instead")
+            predicted_for_user = self.prediction_df.filter(axis=0, regex="^"+user_to_use+"$").T
         predicted_for_user = predicted_for_user.unstack(level=0).sort_values(ascending=False).reset_index()
         predicted_for_user = pd.merge(predicted_for_user, self.movie_names, on="movieId")
+        print(predicted_for_user)
         results = [tuple(row) for row in predicted_for_user.values][0:number]
         itr = 0
         for userId, movieId, rating, title, genres in results:
