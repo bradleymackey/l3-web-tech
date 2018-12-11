@@ -1,3 +1,6 @@
+# bradley mackey
+# web technology assignment 2018/19
+
 import pandas as pd
 import numpy as np
 from scipy.sparse.linalg import svds
@@ -13,15 +16,6 @@ class RatingPredictor(object):
         # print("reading database files in...")
         self.__read_files()
         self.__update_model()
-
-    def normalize(self,df):
-        # https://stackoverflow.com/a/29651514
-        result = df.copy()
-        for feature_name in df.columns:
-            max_value = df[feature_name].max()
-            min_value = df[feature_name].min()
-            result[feature_name] = (df[feature_name] - min_value) / (max_value - min_value)
-        return result
 
     def __read_files(self):
         """
@@ -63,13 +57,13 @@ class RatingPredictor(object):
         new['timestamp'] = new['timestamp'].apply(int)
         new['movieId'] = new['movieId'].apply(int)
         new['rating'] = new['rating'].apply(float)
-        print("TYPES")
-        print(self.custom_ratings_data.dtypes)
-        print("MERGING TYPES")
-        print(new.dtypes)
+        # print("TYPES")
+        # print(self.custom_ratings_data.dtypes)
+        # print("MERGING TYPES")
+        # print(new.dtypes)
         new_values = new.values
-        print("THE NEW VALUES:")
-        print(new_values)
+        # print("THE NEW VALUES:")
+        # print(new_values)
         new_userId = new_values[0][0]
         new_movieId = new_values[0][1]
         self.custom_ratings_data = self.custom_ratings_data[(self.custom_ratings_data.userId != new_userId) | (self.custom_ratings_data.movieId != new_movieId)]
@@ -109,17 +103,7 @@ class RatingPredictor(object):
             # turn the results into a list of strings instead of concat list
             genre_list = genres.split("|")
             norm_rating = (rating - min_val)/(max_val-min_val)
-            print(userId,movieId,norm_rating*5,title)
+            # print(userId,movieId,norm_rating*5,title)
             results[itr] = (userId,movieId,norm_rating*5,title,genre_list)
             itr += 1
         return results
-
-
-
-# pred = RatingPredictor()
-# for i in pred.user_predictions("crackio weener"):
-#     print(i)
-# pred.user_rate("crackio weener",1,5.0)
-# print("updated estimates")
-# for i in pred.user_predictions("crackio weener"):
-#     print(i)

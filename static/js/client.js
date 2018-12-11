@@ -1,3 +1,6 @@
+// bradley mackey
+// web technology assignment 2018/19
+
 var currentlyViewingMovie;
 
 var ajax = {};
@@ -184,6 +187,10 @@ $(function() {
             showLoginPage();
             return;
         }
+        $(".modal-footer").hide();
+        $(".modal-title").hide();
+        $(".rating-form").hide();
+        $("#loader").show();
         var movieStarRating = $('input[name=stars]:checked').val();
         console.log(movieStarRating);
         console.log(currentlyViewingMovie);

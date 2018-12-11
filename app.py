@@ -1,13 +1,5 @@
-# dataset contains imdb id
-# no login or anything, state for current user is always persisted
-# starts off with list of random movies, you rate each one out of 5 stars?
-# then we start to display the recommnedations to you
-# 'reset profile' button at the top of the page that removes all information being held on the current user
-
-# how to pass in a parameter `name` that we can then use as local var
-# @app.route("/hello/<string:name>/")
-# def func(name):
-# // use name in the method
+# bradley mackey
+# web technology assignment 2018/19
 
 from flask import Flask, flash, redirect, render_template, request, session, abort, send_from_directory, jsonify
 from random import randint
@@ -108,6 +100,8 @@ def hello():
     numrecs = 250
     remark = get_remark(lang,numrecs)
 
+    # hash the name and use that for the key for the background colors we should use
+    # this ensures the color of a given movie persists across the same session
     card_backgrounds = ["card-bg-"+col for col in ["purple","blue","pink","green","red","orange","yellow","gray","darkGray","lightBlue"]]
     itr = 0
     for userId, movieId, rating, title, genres in predictions:

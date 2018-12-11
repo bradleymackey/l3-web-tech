@@ -1,11 +1,12 @@
+# bradley mackey
+# web technology assignment 2018/19
+
 """
-manages the handling of the dataset, including auto-updating
+manages the updating of the dataset
 """
 
 DATASET_LOCATION = "http://files.grouplens.org/datasets/movielens/ml-latest-small.zip"
 
-import pandas as pd
-import numpy as np
 import requests
 import zipfile
 import io
