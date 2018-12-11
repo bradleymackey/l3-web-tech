@@ -1,4 +1,4 @@
---- TO RUN ---
+---------- TO RUN ----------
 
 python3 app.py
 
@@ -7,18 +7,19 @@ web app will run on http://localhost:80/
 please use a (reasonably) modern browser
 
 
-
---- DEPENDENCIES ---
-
-pandas, flask, numpy, requests, scipy
+---------- DEPENDENCIES ----------
+pandas, urllib, flask, numpy, requests, scipy
 
 
-
---- COMMENTS ---
-- movielens dataset is used as source (~ 9742 movies total)
-- dataset is updated each time app is run
-- friendly website user interface
-- language selection on website
-- login/logout as users
-- as users rate movies, suggestions dynamically update
-- normalised recommendation algorithm (ensures there is always a good match)
+---------- COMMENTS ----------
+- movielens dataset is used as source (~ 9742 movies total) (~ 600 users with reviews)
+- (the larger movielens dataset is ~250mb, which I deemed too large for this small-scale assignment)
+- dataset is automatically updated each time before web app is run
+- friendly website user interface, with large, clear tiles showing the movies. 
+- HTML,CSS,JS and AJAX (to flask web app) for a dynamic experience
+- language selection option on website (english & french)
+- login/logout as users (CaSe SeNsItIvE), logging in again restores all previous preferences just as they were left
+- personalised message tells users how many ratings they have today, the state of their account (are they logged in or not? are their any recommendations at the moment?)
+- user profiling - as users rate movies, suggestions dynamically update - with each rating AJAX request updates the central rating respoitory
+- SVD recommendation algorithm realised in pandas, which is normalised before showing to users (ensures there are always matches in the range 0-5 stars, which makes the most sense to users)
+- user ratings stored in `users.csv`, which is merged with main ratings when starting server, file is also backed up again with each new rating into the system
