@@ -51,8 +51,20 @@ class RatingPredictor(object):
         t = time.gmtime()
         timestamp = int(time.mktime(t))
         new = pd.DataFrame([[username,movie,stars,timestamp]], columns=["userId","movieId","rating","timestamp"])
-        self.custom_ratings_data = self.custom_ratings_data.drop(self.custom_ratings_data[(self.custom_ratings_data.movieId == new.iat[0,1]) & (self.custom_ratings_data.userId == new.iat[0,0])].index)
-        self.combined_ratings_data = self.combined_ratings_data.drop(self.combined_ratings_data[(self.combined_ratings_data.movieId == new.iat[0,1]) & (self.combined_ratings_data.userId == new.iat[0,0])].index)
+        new['timestamp'] = new['timestamp'].apply(int)
+        new['movieId'] = new['movieId'].apply(int)
+        new['rating'] = new['rating'].apply(float)
+        print("TYPES")
+        print(self.custom_ratings_data.dtypes)
+        print("MERGING TYPES")
+        print(new.dtypes)
+        new_values = new.values
+        print("THE NEW VALUES:")
+        print(new_values)
+        new_userId = new_values[0][0]
+        new_movieId = new_values[0][1]
+        self.custom_ratings_data = self.custom_ratings_data[(self.custom_ratings_data.userId != new_userId) | (self.custom_ratings_data.movieId != new_movieId)]
+        self.combined_ratings_data = self.combined_ratings_data[(self.combined_ratings_data.userId != new_userId) | (self.combined_ratings_data.movieId != new_movieId)]
         self.custom_ratings_data = self.custom_ratings_data.append(new, sort=False)
         self.combined_ratings_data = self.combined_ratings_data.append(new, sort=False)
         # print(self.custom_ratings_data.head())
