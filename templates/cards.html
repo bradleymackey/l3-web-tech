@@ -88,13 +88,21 @@
       {% for pred in predictions_row %}
   
         {% set background = card_backgrounds|random %}
+        {# extract needed data from the predictions tuple (defined in rating_predictor.py) #}
         {% set movie_id = pred.1 %}
         {% set rating = pred.2|float|round(1, 'floor') %}
+        {% set movie_title = pred.3 %}
+        {% set genres = pred.4 %}
+
+        {# if the rating is greater than 5, just make it 5 #}
         {% if rating > 5.0 %}
         {% set rating = 5.0|float %}
         {% endif %}
-        {% set movie_title = pred.3 %}
-        {% set genres = pred.4 %}
+        {# if the rating is less than 0, just make it 0 #}
+        {% if rating < 0 %}
+        {% set rating = 0.0|float %}
+        {% endif %}
+        
       
         <div class="movie col">
           <a class="card" data-toggle="modal" data-target="#rating-modal">
