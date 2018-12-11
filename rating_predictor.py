@@ -26,7 +26,7 @@ class RatingPredictor(object):
         self.number_movies = self.movie_names.shape[0]
         self.movie_links = pd.read_csv("ml-latest-small/links.csv")
         self.custom_ratings_data = pd.read_csv("users.csv")
-        self.combined_ratings_data = self.existing_ratings_data.append(self.custom_ratings_data, ignore_index=False, sort=True)
+        self.combined_ratings_data = self.existing_ratings_data.append(self.custom_ratings_data, ignore_index=False)
         
     def __update_model(self):
         """
@@ -68,8 +68,8 @@ class RatingPredictor(object):
         new_movieId = new_values[0][1]
         self.custom_ratings_data = self.custom_ratings_data[(self.custom_ratings_data.userId != new_userId) | (self.custom_ratings_data.movieId != new_movieId)]
         self.combined_ratings_data = self.combined_ratings_data[(self.combined_ratings_data.userId != new_userId) | (self.combined_ratings_data.movieId != new_movieId)]
-        self.custom_ratings_data = self.custom_ratings_data.append(new, sort=False)
-        self.combined_ratings_data = self.combined_ratings_data.append(new, sort=False)
+        self.custom_ratings_data = self.custom_ratings_data.append(new)
+        self.combined_ratings_data = self.combined_ratings_data.append(new)
         # print(self.custom_ratings_data.head())
         self.custom_ratings_data.to_csv("users.csv", index=False)
 
