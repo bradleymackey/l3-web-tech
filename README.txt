@@ -1,15 +1,17 @@
----------- TO RUN ----------
+--------- ABOUT ----------
+a rating predictor for movies
+allows users to login, uses rated movies to inform future predictions
+done in the form of a website
 
-python3 app.py
+---------- TO RUN ----------
+`python3 app.py`
 
 runs A FLASK WEB APP
 web app will run on http://localhost:80/
 please use a (reasonably) modern browser
 
-
 ---------- DEPENDENCIES ----------
 pandas, urllib, flask, numpy, requests, scipy
-
 
 ---------- COMMENTS ----------
 - movielens dataset is used as source (~ 9742 movies total) (~ 600 users with reviews)
